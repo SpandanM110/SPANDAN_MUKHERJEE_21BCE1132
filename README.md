@@ -235,6 +235,9 @@ To set up the project on your local machine, follow these steps:
 4. **Winning the Game:**
    The game will notify both players when a player wins based on the rules of the game.
 
+# VIDEO DEMO OVERALL
+
+https://github.com/user-attachments/assets/94deaecd-a5e9-425e-95ad-e495aa49de0b
 
 ## Dependencies
 
@@ -242,3 +245,14 @@ This project relies on the following dependencies:
 
 - **Express**: A web server framework for Node.js.
 - **ws**: A WebSocket library for real-time communication.
+
+
+https://github.com/user-attachments/assets/5584f904-4e4d-4a53-b332-c06d17e97459
+
+
+
+
+
+
+
+
