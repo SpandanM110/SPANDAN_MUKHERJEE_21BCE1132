@@ -2,6 +2,8 @@
 
 # SPANDAN_MUKHERJEE_21BCE1132
 
+#Github ID: Rovers11 and SpandanM110 (MAIN)
+
 ## Project Overview
 
 This project is a chess-inspired game designed with a server-client architecture, utilizing WebSocket for real-time communication. The game is played on a 5x5 grid where two players compete, each controlling characters with unique movement abilities.
