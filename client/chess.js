@@ -1,24 +1,50 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // WebSocket connection setup
+    const ws = new WebSocket('https://spandan-mukherjee-21-bce-1132.vercel.app/'); // Replace with your Heroku URL
+
+    ws.onopen = function () {
+        console.log('Connected to WebSocket server');
+    };
+
+    ws.onmessage = function (event) {
+        const message = JSON.parse(event.data);
+        switch (message.type) {
+            case 'INIT':
+                initializeBoard(message.state.pieces);
+                break;
+            case 'UPDATE':
+                updateBoard(message.state.pieces);
+                break;
+            case 'ERROR':
+                alert(message.message);
+                break;
+        }
+    };
+
+    ws.onerror = function (error) {
+        console.log('WebSocket Error: ' + error);
+    };
+
     // Select the board and all boxes
     const board = document.querySelector('.container');
     const boxes = Array.from(document.querySelectorAll('.box'));
     let selectedBox = null; // To keep track of the selected box
     let turn = 'A'; // Starting turn
 
-    // Initial positions of pieces
-    const initialPositions = {
-        'A-P1': [0, 0], 'A-P2': [0, 1], 'A-H1': [0, 2], 'A-H2': [0, 3], 'A-P3': [0, 4],
-        'B-P1': [4, 0], 'B-P2': [4, 1], 'B-H1': [4, 2], 'B-H2': [4, 3], 'B-P3': [4, 4]
-    };
-
     // Initialize the board with pieces
-    function initializeBoard() {
-        for (const piece in initialPositions) {
-            const [row, col] = initialPositions[piece];
+    function initializeBoard(pieces) {
+        for (const piece in pieces) {
+            const [row, col] = pieces[piece];
             const index = row * 5 + col; // Convert row and col to index
             boxes[index].textContent = piece; // Set piece name in the box
             boxes[index].setAttribute('data-piece', piece); // Store piece info in data attribute
         }
+    }
+
+    // Update the board state with new pieces
+    function updateBoard(pieces) {
+        initializeBoard(pieces);
+        switchTurn(); // Switch turn as indicated by server
     }
 
     // Check if a move is valid based on piece type and move distance
@@ -119,24 +145,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedBox.classList.remove('selected');
                 selectedBox = null;
             } else if (clickedBox.classList.contains('highlight')) {
-                // Move piece to the highlighted box
-                movePiece(selectedBox, clickedBox);
+                // Send move to server
+                ws.send(JSON.stringify({
+                    type: 'MOVE',
+                    from: selectedBox.getAttribute('data-piece'),
+                    to: clickedBox.getAttribute('data-piece')
+                }));
                 clearHighlights();
                 selectedBox.classList.remove('selected');
                 selectedBox = null;
-                const winner = checkWin();
-                if (winner) {
-                    alert(winner); // Display winner
-                } else {
-                    switchTurn(); // Switch turn if no winner
-                }
             } else {
                 // Select a new piece if valid
                 clearHighlights();
                 if (clickedPiece && clickedPiece[0] === turn) {
                     clickedBox.classList.add('selected');
                     selectedBox = clickedBox;
-                    highlightValidMoves(selectedPiece);
+                    highlightValidMoves(clickedPiece);
                 }
             }
         } else {
