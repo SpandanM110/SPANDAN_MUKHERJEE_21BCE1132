@@ -4,7 +4,7 @@
 
 #Github ID: Rovers11 and SpandanM110 (MAIN)
 
-## TO RUN IN LOCAL HOST IMPLEMENT THIS SNIPPET Chess.js code
+## TO RUN IN LOCAL HOST IMPLEMENT THIS SNIPPET in Chess.js code
 
 -----
 
