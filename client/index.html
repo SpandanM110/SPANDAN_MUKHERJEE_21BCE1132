@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The NEW CHESS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+ .container {
+    display: grid;
+    grid-template-columns: repeat(5, 100px); /* Increased box width */
+    grid-template-rows: repeat(5, 100px); /* Increased box height */
+    gap: 0;
+    justify-content: center;
+    margin: 20px auto;
+    border: 3px solid #000000; /* Black border for container */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #000000; /* Black background for container */
+    width: max-content; /* Adjust container width to fit larger boxes */
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px; /* Increased font size for larger boxes */
+    font-weight: bold;
+    transition: transform 0.3s ease; /* Smooth transform transition */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.box:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.box:nth-child(odd) {
+    background-color: #000000; /* Black for odd boxes */
+}
+
+.box:nth-child(even) {
+    background-color: #004080; /* Dark blue for even boxes */
+}
+
+.box.selected {
+    border: 2px solid #0000; /* Blue border for selected box */
+}
+
+.box.highlight {
+    background-color: #ffcc00; /* Yellow highlight for valid moves */
+    border: 2px solid #0000;
+}
+
+.allimg, .allpawn {
+    width: 70px; /* Increased image width */
+    height: 70px; /* Increased image height */
+    border-radius: 5px; /* Rounded corners for images */
+}
+
+.turn-indicator {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #004080; /* Blue text for the turn indicator */
+    font-family: 'Arial', sans-serif; /* Updated font for a cleaner look */
+    text-align: center; /* Centered text */
+}
+.sidebar {
+            position: fixed;
+            left: -250px; /* Initially hide the sidebar off-screen */
+            top: 0;
+            height: 100%;
+            width: 250px;
+            background-color: #004080; /* Blue background */
+            overflow-x: hidden;
+            transition: 0.3s; /* Smooth transition for showing/hiding */
+            padding-top: 20px;
+            z-index: 1;
+        }
+
+        .sidebar h2 {
+            margin-left: 10px;
+            color: #ffffff; /* White text color */
+            font-size: 18px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .sidebar ul li {
+            padding: 8px 16px;
+            text-align: left;
+            color: #ffffff; /* White text color */
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+
+        .sidebar ul li strong {
+            color: #ffcc00; /* Yellow color for piece names */
+        }
+
+        /* Rules Button */
+        .rules-button {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background-color: #ffcc00; /* Yellow background */
+            color: #004080; /* Blue text color */
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s;
+        }
+
+        .rules-button:hover {
+            background-color: #ffe066; /* Lighter yellow on hover */
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Chess-Like Game</h1>
+    <div class="container">
+        <!-- 5x5 Grid Setup -->
+        <div id="b01" class="box"></div>
+        <div id="b02" class="box"></div>
+        <div id="b03" class="box"></div>
+        <div id="b04" class="box"></div>
+        <div id="b05" class="box"></div>
+
+        <div id="b11" class="box"></div>
+        <div id="b12" class="box"></div>
+        <div id="b13" class="box"></div>
+        <div id="b14" class="box"></div>
+        <div id="b15" class="box"></div>
+
+        <div id="b21" class="box"></div>
+        <div id="b22" class="box"></div>
+        <div id="b23" class="box"></div>
+        <div id="b24" class="box"></div>
+        <div id="b25" class="box"></div>
+
+        <div id="b31" class="box"></div>
+        <div id="b32" class="box"></div>
+        <div id="b33" class="box"></div>
+        <div id="b34" class="box"></div>
+        <div id="b35" class="box"></div>
+
+        <div id="b41" class="box"></div>
+        <div id="b42" class="box"></div>
+        <div id="b43" class="box"></div>
+        <div id="b44" class="box"></div>
+        <div id="b45" class="box"></div>
+    </div>
+
+    
+    <button class="rules-button" onclick="openSidebar()">Rules</button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h2>Piece Movement Guide</h2>
+        <ul>
+            <li><strong>Pawn (P):</strong> Moves 1 step in any direction (⬆️ ⬇️ ⬅️ ➡️)</li>
+            <li><strong>Hero1 (H1):</strong> Moves 2 steps in any direction (⬆️ ⬇️ ⬅️ ➡️)</li>
+            <li><strong>Hero2 (H2):</strong> Moves 2 steps diagonally (↖️ ↗️ ↙️ ↘️)</li>
+            <li><strong>Hero3 (H3):</strong> Moves 2 steps in one direction, then 1 step perpendicular (All directions)</li>
+        </ul>
+
+        <h2>Rule of the Game</h2>
+
+        <ul>
+            <li><strong>Rule 1</strong> Player has 4 pieces: 1 Pawn, 1 Hero1, 1 Hero2, and 1 Hero3</li>
+            <li><strong>Rule 2</strong> Players take turns moving their pieces</li>
+            <li><strong>Rule 3</strong> First player to reach the opponent's back row wins</li>
+        </ul>
+        <h2>Starting the Game</h2>
+        <ul>
+            <li><strong>Rule 1</strong> Click on a piece A to select it</li>
+            <li><strong>Rule 2</strong> Valid moves will be highlighted in yellow</li>
+            <li><strong>Rule 3</strong> Click on a highlighted box to move the selected piece</li>
+        </ul>
+
+
+    </div>
+    <script src="chess.js"></script>
+    <script>
+        function openSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.style.left = '0'; // Move sidebar into view
+        }
+    </script>
+</body>
+</html>
