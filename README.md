@@ -7,14 +7,20 @@
 ## TO RUN IN LOCAL HOST IMPLEMENT THIS SNIPPET Chess.js code
 
 -----
-document.addEventListener('DOMContentLoaded', function () {
+
+
+
+
+    // Initial positions of pieces
+
+
+    document.addEventListener('DOMContentLoaded', function () {
     // Select the board and all boxes
     const board = document.querySelector('.container');
     const boxes = Array.from(document.querySelectorAll('.box'));
     let selectedBox = null; // To keep track of the selected box
     let turn = 'A'; // Starting turn
-
-    // Initial positions of pieces
+    
     const initialPositions = {
         'A-P1': [0, 0], 'A-P2': [0, 1], 'A-H1': [0, 2], 'A-H2': [0, 3], 'A-P3': [0, 4],
         'B-P1': [4, 0], 'B-P2': [4, 1], 'B-H1': [4, 2], 'B-H2': [4, 3], 'B-P3': [4, 4]
